@@ -1,0 +1,10 @@
+
+database_url: postgres://khalid:khalid@localhost/project1
+        
+http_addr: :8081
+
+maps_google_url: http://maps.googleapis.com/maps/api/geocode/json
+
+darksky_url: https://api.darksky.net/forecast/
+
+darksky_key: 88eb8b85287337c4c448aee47ebf7fd5
