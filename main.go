@@ -38,7 +38,7 @@ func main() {
 	a := app.CreateGinApplication(gin.ReleaseMode, *config, logger)
 	go a.Run()
 
-	logger.Log("transport", "HTTP", "addr", a.Config.HttpAddress)
+	//logger.Log("transport", "HTTP", "addr", a.Config.HttpAddress)
 
 	ch := make(chan os.Signal)
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
