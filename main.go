@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -20,11 +19,14 @@ func main() {
 		config = fs.String("config", "config/config_test.yml", "configuration file path")
 	)
 
-	if len(os.Args) < 2 {
-		fmt.Println("command subcommand is required")
-		fs.PrintDefaults()
-		os.Exit(1)
-	}
+	/*
+		if len(os.Args) < 2 {
+			fmt.Println("command subcommand is required")
+			fs.PrintDefaults()
+			os.Exit(1)
+		}
+	*/
+
 	var logger log.Logger
 	{
 		logger = log.NewLogfmtLogger(os.Stderr)
