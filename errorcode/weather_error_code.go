@@ -1,4 +1,4 @@
-package app
+package errorcode
 
 const (
 	Error_code_10001 = "10001 Invalid JSON Request"

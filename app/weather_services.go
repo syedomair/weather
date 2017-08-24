@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/syedomair/weather/common"
+	"github.com/syedomair/weather/errorcode"
 	"github.com/syedomair/weather/models"
 )
 
@@ -17,10 +18,9 @@ func GetAllWeatherLogRecords(db models.Datastore) ([]*models.WeatherLog, error) 
 
 	wls, err := db.GetAllWeatherLog()
 	if err != nil {
-		err := errors.New(Error_code_10007)
+		err := errors.New(errorcode.Error_code_10007)
 		return nil, err
 	}
-
 	return wls, nil
 }
 func PostToWeatherLogRecord(db models.Datastore, client_ip string, address string) (string, error) {
@@ -31,11 +31,9 @@ func PostToWeatherLogRecord(db models.Datastore, client_ip string, address strin
 
 	id, err := db.PostWeatherLog(weatherLog)
 	if err != nil {
-		err := errors.New(Error_code_10007)
+		err := errors.New(errorcode.Error_code_10007)
 		return "", err
 	}
-	//wls, err := db.GetAllWeatherLog()
-	//fmt.Println(wls[10].AddressSearched)
 	return id, nil
 }
 func GetTemperatureFromCoordinate(config common.Config, longitude string, latitude string) (string, error) {
@@ -44,12 +42,12 @@ func GetTemperatureFromCoordinate(config common.Config, longitude string, latitu
 
 	mapBodyInterface, err := getDataFromThirdPartyServer(completeURL)
 	if err != nil {
-		err := errors.New(Error_code_10006)
+		err := errors.New(errorcode.Error_code_10006)
 		return "", err
 	}
 	currently := make(map[string]interface{})
 	if _, ok := mapBodyInterface["code"]; ok {
-		err := errors.New(Error_code_10006)
+		err := errors.New(errorcode.Error_code_10006)
 		return "", err
 	}
 	currently = mapBodyInterface["currently"].(map[string]interface{})
@@ -61,7 +59,7 @@ func GetCoordinateFromAddress(config common.Config, address string) (string, str
 	var urlLocal *url.URL
 	urlLocal, err := url.Parse(config.MapsGoogleURL)
 	if err != nil {
-		err := errors.New(Error_code_10003)
+		err := errors.New(errorcode.Error_code_10003)
 		return "", "", "", err
 	}
 	parameters := url.Values{}
@@ -72,7 +70,7 @@ func GetCoordinateFromAddress(config common.Config, address string) (string, str
 
 	mapBodyInterface, err := getDataFromThirdPartyServer(completeURL)
 	if err != nil {
-		err := errors.New(Error_code_10004)
+		err := errors.New(errorcode.Error_code_10004)
 		return "", "", "", err
 	}
 
@@ -95,7 +93,7 @@ func GetCoordinateFromAddress(config common.Config, address string) (string, str
 		longitute = strconv.FormatFloat(location["lng"].(float64), 'f', -1, 64)
 		f_address = resultElement["formatted_address"].(string)
 	} else {
-		err := errors.New(Error_code_10005)
+		err := errors.New(errorcode.Error_code_10005)
 		return "", "", "", err
 	}
 	return longitute, latitude, f_address, nil
@@ -104,7 +102,7 @@ func GetCoordinateFromAddress(config common.Config, address string) (string, str
 func getDataFromThirdPartyServer(completeURL string) (map[string]interface{}, error) {
 	resp, err := http.Get(completeURL)
 	if err != nil {
-		err := errors.New(Error_code_10002)
+		err := errors.New(errorcode.Error_code_10002)
 		return nil, err
 	}
 	defer resp.Body.Close()
@@ -123,7 +121,7 @@ func GetAddressFromRequest(reqBody io.ReadCloser) (string, error) {
 	body, err := ioutil.ReadAll(reqBody)
 	defer reqBody.Close()
 	if err != nil {
-		err := errors.New(Error_code_10001)
+		err := errors.New(errorcode.Error_code_10001)
 		return "", err
 	}
 	var bodyInterface map[string]interface{}
@@ -132,11 +130,11 @@ func GetAddressFromRequest(reqBody io.ReadCloser) (string, error) {
 	var inputData InputData
 	err = json.Unmarshal(body, &inputData)
 	if err != nil {
-		err := errors.New(Error_code_10001)
+		err := errors.New(errorcode.Error_code_10001)
 		return "", err
 	}
 	if inputData.Address == "" {
-		err := errors.New(Error_code_10001)
+		err := errors.New(errorcode.Error_code_10001)
 		return "", err
 	}
 	address := inputData.Address
