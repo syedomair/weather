@@ -2,6 +2,7 @@ package app
 
 import (
 	"io/ioutil"
+	"os"
 
 	"github.com/go-kit/kit/log"
 	"github.com/syedomair/weather/common"
@@ -30,7 +31,8 @@ type GinApplication struct {
 }
 
 func (a GinApplication) Run() {
-	a.Engine.Run(a.Config.HttpAddress)
+	//a.Engine.Run(a.Config.HttpAddress)
+	a.Engine.Run(os.Getenv("PORT"))
 }
 
 func (a *GinApplication) initialize() {
