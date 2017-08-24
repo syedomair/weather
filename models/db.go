@@ -2,7 +2,6 @@ package models
 
 import (
 	"database/sql"
-	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -18,8 +17,10 @@ type DB struct {
 }
 
 func NewDB(dataSourceName string) (*DB, error) {
-	//db, err := sql.Open("postgres", dataSourceName)
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+
+	/* heroku_branch */
+	//db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	db, err := sql.Open("postgres", dataSourceName)
 	if err != nil {
 		return nil, err
 	}
