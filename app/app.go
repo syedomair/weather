@@ -32,7 +32,7 @@ type GinApplication struct {
 
 func (a GinApplication) Run() {
 	//a.Engine.Run(a.Config.HttpAddress)
-	a.Engine.Run(os.Getenv("PORT"))
+	a.Engine.Run(":" + os.Getenv("PORT"))
 }
 
 func (a *GinApplication) initialize() {
