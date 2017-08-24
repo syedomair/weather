@@ -9,4 +9,5 @@ const (
 	Error_code_10006 = "10006 Dark Sky Server error"
 	Error_code_10007 = "10007 Database error"
 	Error_code_10008 = "10008 Invalid Address"
+	Error_code_10009 = "10009 Server Timeout"
 )
