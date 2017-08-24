@@ -1,4 +1,4 @@
-package testdata
+package mockdata
 
 import (
 	"github.com/syedomair/weather/models"

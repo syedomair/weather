@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/go-kit/kit/log"
-	"github.com/syedomair/weather/app/common"
+	"github.com/syedomair/weather/common"
 	"github.com/syedomair/weather/models"
 )
 
@@ -16,7 +16,7 @@ type DataResponse struct {
 	Temperature string `json:"temperature"`
 }
 
-func PostAction(c *gin.Context, config common.Config, logger log.Logger) {
+func WeatherPostAction(c *gin.Context, config common.Config, logger log.Logger) {
 
 	logger.Log("action", "PostAction", "event", "method start")
 	start := time.Now()
@@ -53,8 +53,8 @@ func PostAction(c *gin.Context, config common.Config, logger log.Logger) {
 			return
 		}
 		elapsed = time.Since(start)
-		logger.Log("action", "PostAction", "GetTemperatureFromCoordinate", temperature, "time_spent", elapsed)
 		temperature_chan <- temperature
+		logger.Log("action", "PostAction", "GetTemperatureFromCoordinate", temperature, "time_spent", elapsed)
 	}()
 
 	go func() {
@@ -63,7 +63,7 @@ func PostAction(c *gin.Context, config common.Config, logger log.Logger) {
 		dbInterface, _ := c.Get("DB")
 		db := dbInterface.(models.Datastore)
 
-		err = PostToWeatherLogRecord(db, c.ClientIP(), f_address)
+		id, err := PostToWeatherLogRecord(db, c.ClientIP(), f_address)
 		if err != nil {
 			str := err.Error()
 			c.JSON(http.StatusBadRequest, common.ErrorResponse(str))
@@ -71,7 +71,7 @@ func PostAction(c *gin.Context, config common.Config, logger log.Logger) {
 		}
 
 		elapsed = time.Since(start)
-		logger.Log("action", "PostAction", "PostToWeatherLogRecord", "", "time_spent", elapsed)
+		logger.Log("action", "PostAction", "PostToWeatherLogRecord", id, "time_spent", elapsed)
 
 	}()
 

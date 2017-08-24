@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 
 	"github.com/go-kit/kit/log"
-	"github.com/syedomair/weather/app/common"
+	"github.com/syedomair/weather/common"
 	"github.com/syedomair/weather/models"
 
 	"github.com/gin-gonic/gin"
@@ -23,18 +23,18 @@ func CreateGinApplication(releaseMode, configFilePath string, logger log.Logger)
 }
 
 type GinApplication struct {
-	config common.Config
+	Config common.Config
 	db     models.Datastore
 	Engine *gin.Engine
 	logger log.Logger
 }
 
 func (a GinApplication) Run() {
-	a.Engine.Run(a.config.HttpAddress)
+	a.Engine.Run(a.Config.HttpAddress)
 }
 
 func (a *GinApplication) initialize() {
-	a.db, _ = models.NewDB(a.config.DatabaseURL)
+	a.db, _ = models.NewDB(a.Config.DatabaseURL)
 }
 
 func (a *GinApplication) loadConfig(filepath string) {
@@ -42,7 +42,7 @@ func (a *GinApplication) loadConfig(filepath string) {
 	if err != nil {
 		panic(err)
 	}
-	yaml.Unmarshal(yamlFile, &a.config)
+	yaml.Unmarshal(yamlFile, &a.Config)
 }
 
 func (a *GinApplication) routers() {
@@ -52,10 +52,10 @@ func (a *GinApplication) routers() {
 	v1 := a.Engine.Group("/v1")
 	{
 		v1.GET("/weather-log", func(c *gin.Context) {
-			GetAction(c)
+			WeatherGetAction(c)
 		})
 		v1.POST("/weather", func(c *gin.Context) {
-			PostAction(c, a.config, a.logger)
+			WeatherPostAction(c, a.Config, a.logger)
 		})
 	}
 }

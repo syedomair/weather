@@ -9,23 +9,34 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/syedomair/weather/app/common"
+	"github.com/syedomair/weather/common"
 	"github.com/syedomair/weather/models"
 )
 
-func PostToWeatherLogRecord(db models.Datastore, client_ip string, address string) error {
+func GetAllWeatherLogRecords(db models.Datastore) ([]*models.WeatherLog, error) {
+
+	wls, err := db.GetAllWeatherLog()
+	if err != nil {
+		err := errors.New(Error_code_10007)
+		return nil, err
+	}
+
+	return wls, nil
+}
+func PostToWeatherLogRecord(db models.Datastore, client_ip string, address string) (string, error) {
 
 	var weatherLog models.WeatherLog
 	weatherLog.IpAddress = client_ip
 	weatherLog.AddressSearched = address
 
-	err := db.PostWeatherLog(weatherLog)
+	id, err := db.PostWeatherLog(weatherLog)
 	if err != nil {
 		err := errors.New(Error_code_10007)
-		return err
+		return "", err
 	}
-
-	return nil
+	//wls, err := db.GetAllWeatherLog()
+	//fmt.Println(wls[10].AddressSearched)
+	return id, nil
 }
 func GetTemperatureFromCoordinate(config common.Config, longitude string, latitude string) (string, error) {
 

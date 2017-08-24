@@ -7,7 +7,9 @@ import (
 )
 
 type Datastore interface {
-	PostWeatherLog(WeatherLog) error
+	PostWeatherLog(WeatherLog) (string, error)
+	GetAWeatherLog(string) (*WeatherLog, error)
+	GetAllWeatherLog() ([]*WeatherLog, error)
 }
 
 type DB struct {

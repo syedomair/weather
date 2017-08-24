@@ -1,4 +1,4 @@
-package testdata
+package mockdata
 
 const (
 	ValidAddress1       = "karachi"
@@ -11,4 +11,7 @@ const (
 	ValidLatitude       = "24.8614622"
 	InValidLogitute     = "167009388"
 	InValidLatitude     = "1248614622"
+	IpAddress           = "172.17.0.2"
+	TestAddress         = "Test 1917 Pike Dr Madison, WI"
+	ValidJSONAddress    = "{\"address\":\"New York\"}"
 )

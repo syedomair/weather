@@ -5,14 +5,14 @@ import (
 	"testing"
 
 	"github.com/gavv/httpexpect"
-	"github.com/syedomair/weather/testdata"
+	"github.com/syedomair/weather/mockdata"
 )
 
-func TestPostValidAddressAction(t *testing.T) {
+func TestWeatherPostValidAddressAction(t *testing.T) {
 	e := httpexpect.New(t, server.URL)
 
 	address := map[string]interface{}{
-		"address": testdata.ValidAddress1,
+		"address": mockdata.ValidAddress1,
 	}
 	p := e.POST("/v1/weather").WithJSON(address).Expect()
 	o := p.Status(http.StatusOK).JSON().Object()
@@ -20,11 +20,11 @@ func TestPostValidAddressAction(t *testing.T) {
 	o.ValueEqual("result", "success")
 }
 
-func TestPostInvalidAddressAction(t *testing.T) {
+func TestWeatherPostInvalidAddressAction(t *testing.T) {
 	e := httpexpect.New(t, server.URL)
 
 	address := map[string]interface{}{
-		"address": testdata.InValidAddress1,
+		"address": mockdata.InValidAddress1,
 	}
 	p := e.POST("/v1/weather").WithJSON(address).Expect()
 	o := p.Status(http.StatusBadRequest).JSON().Object()

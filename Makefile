@@ -20,7 +20,7 @@ run:
 
 test: 
 	rm -f ./tmp/* 
-	go test ./... -cover
+	go test -v ./... -cover
 
 check:
 	go vet ./...

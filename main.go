@@ -31,10 +31,11 @@ func main() {
 		logger = log.With(logger, "time", log.DefaultTimestamp)
 		logger = log.With(logger, "caller", log.DefaultCaller)
 	}
-	logger.Log("transport", "HTTP", "addr", "8081")
 
 	a := app.CreateGinApplication(gin.ReleaseMode, *config, logger)
 	go a.Run()
+
+	logger.Log("transport", "HTTP", "addr", a.Config.HttpAddress)
 
 	ch := make(chan os.Signal)
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
