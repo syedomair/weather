@@ -20,11 +20,12 @@ func main() {
 	)
 
 	/*
-		if len(os.Args) < 2 {
-			fmt.Println("command subcommand is required")
-			fs.PrintDefaults()
-			os.Exit(1)
-		}
+		        Removed for Heroku
+			if len(os.Args) < 2 {
+				fmt.Println("command subcommand is required")
+				fs.PrintDefaults()
+				os.Exit(1)
+			}
 	*/
 
 	var logger log.Logger
