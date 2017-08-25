@@ -10,3 +10,6 @@ The application takes user input in a JSON format and send it to GoogleAPI, whic
 curl -d '{"address":"NY"}' -X POST http://localhost:8081/v1/weather 
 
 curl -X GET http://localhost:8081/v1/weather-log
+
+Sample Application using this API
+https://murmuring-ravine-44482.herokuapp.com/weather
