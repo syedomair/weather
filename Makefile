@@ -10,13 +10,16 @@ clean_build:
 copy_build:
 	@echo "Building ...."
 	@if [ ! -d "$(BUILDPATH)/build" ] ; then mkdir -p $(BUILDPATH)/build ; fi 
-	@$(GOBUILD) main.go
-	@mv main $(BUILDPATH)/build 
+	@$(GOBUILD) .
+	@mv weather $(BUILDPATH)/build 
 
 build: clean_build copy_build 
 
-run:
-	@$(GORUN) main.go -config="config/config_test.yml"
+run:    build
+	build/weather -config="config/config_test.yml"
+
+docker: build
+	docker build -t app .
 
 test: 
 	rm -f ./tmp/* 

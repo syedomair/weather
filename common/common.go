@@ -1,11 +1,13 @@
 package common
 
 type Config struct {
-	DatabaseURL   string `yaml:"database_url"`
-	HttpAddress   string `yaml:"http_addr"`
-	MapsGoogleURL string `yaml:"maps_google_url"`
-	DarkskyURL    string `yaml:"darksky_url"`
-	DarkskyKey    string `yaml:"darksky_key"`
+	DatabaseURL      string `yaml:"database_url"`
+	DatabaseName     string `yaml:"database_name"`
+	DatabasePassword string `yaml:"database_password"`
+	HttpAddress      string `yaml:"http_addr"`
+	MapsGoogleURL    string `yaml:"maps_google_url"`
+	DarkskyURL       string `yaml:"darksky_url"`
+	DarkskyKey       string `yaml:"darksky_key"`
 }
 
 type ErrorResponseType struct {

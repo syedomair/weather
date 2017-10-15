@@ -1,5 +1,7 @@
 
 database_url: postgres://khalid:khalid@localhost/project1
+database_name: project1
+database_password: khalid123
         
 http_addr: :8081
 

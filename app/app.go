@@ -2,6 +2,7 @@ package app
 
 import (
 	"io/ioutil"
+	"os"
 
 	"github.com/go-kit/kit/log"
 	"github.com/syedomair/weather/common"
@@ -30,13 +31,21 @@ type GinApplication struct {
 }
 
 func (a GinApplication) Run() {
-	a.Engine.Run(a.Config.HttpAddress)
-	/* heroku_branch */
-	//a.Engine.Run(":" + os.Getenv("PORT"))
+	if os.Getenv("PORT") != "" {
+		a.Engine.Run(":" + os.Getenv("PORT"))
+	} else {
+		a.Engine.Run(a.Config.HttpAddress)
+	}
 }
 
 func (a *GinApplication) initialize() {
-	a.db, _ = models.NewDB(a.Config.DatabaseURL)
+	var databaseURL = a.Config.DatabaseURL
+	if os.Getenv("DATABASE_URL") != "" {
+		databaseURL = os.Getenv("DATABASE_URL")
+	} else if (os.Getenv("DB_PORT_5432_TCP_ADDR") != "") && (os.Getenv("DB_PORT_5432_TCP_PORT") != "") {
+		databaseURL = "postgres://postgres:" + a.Config.DatabasePassword + "@" + os.Getenv("DB_PORT_5432_TCP_ADDR") + ":" + os.Getenv("DB_PORT_5432_TCP_PORT") + "/" + a.Config.DatabaseName + "?sslmode=disable"
+	}
+	a.db, _ = models.NewDB(databaseURL)
 }
 
 func (a *GinApplication) loadConfig(filepath string) {

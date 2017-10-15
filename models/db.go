@@ -18,8 +18,6 @@ type DB struct {
 
 func NewDB(dataSourceName string) (*DB, error) {
 
-	/* heroku_branch */
-	//db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	db, err := sql.Open("postgres", dataSourceName)
 	if err != nil {
 		return nil, err
