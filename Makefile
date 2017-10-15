@@ -18,7 +18,7 @@ build: clean_build copy_build
 run:    build
 	build/weather -config="config/config_test.yml"
 
-docker: build
+docker_build:	build
 	docker build -t app .
 
 test: 
