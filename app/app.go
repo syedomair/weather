@@ -62,6 +62,9 @@ func (a *GinApplication) routers() {
 
 	v1 := a.Engine.Group("/v1")
 	{
+		v1.GET("/ping", func(c *gin.Context) {
+			PingGetAction(c)
+		})
 		v1.GET("/weather-log", func(c *gin.Context) {
 			WeatherGetAction(c)
 		})
